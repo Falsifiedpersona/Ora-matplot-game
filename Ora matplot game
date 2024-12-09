@@ -1,0 +1,87 @@
+#Goals/What's next
+#color coordination, list out what colors are what given things
+#layer??? create two maps so my PC can move over the given tile map but knows when I cant move into a wall
+#movement, ensure your PC can move
+#mobs, ensure mobs can move in the environment
+#items, inventory
+#mob movements
+
+#imorts
+#numpy contains its own random functions so "import random" is unnecessary
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from matplotlib.colors import LinearSegmentedColormap
+
+#use the link below to find colors
+# https://www.rapidtables.com/web/color/RGB_Color.html
+
+#Note, this creates a plot map with random noise and that is as far as this goes... 
+#for my own needs I must move to a numpy array
+
+
+
+
+#The following code allows for the addition of any set of custom colors to your game
+#just insert the RGB color into the list and you're all good
+#do note that cmap colors are defined with '' around them, so this would just be "cmap = RGB" rather than "cmap ='twilight'"
+#notably the /255 allows it to call all shades of the given color allowing for gradients
+colors = [(255/255, 0/255, 0/255), (0/255, 255/255, 0/255), (0/255, 0/255, 255/255)]
+RGB = mcolors.LinearSegmentedColormap.from_list("", colors)
+
+#This function develops a map for the game to take place in
+def make_map():
+    #this line controls the height and width dimensions inside the map
+    data = np.random.rand(10,10)
+    
+    #creates the figure onto which axes can be added
+    world_map_1 = plt.figure()
+    
+    #plotting... this controls the size of the 'window' [left, bottom, width, height]
+    #this is not necessary, but does allow for more control rather than default sizing
+    #the following code also works as a one line replacement: world_map_1.add_axes([.5,.5,.5,.5])
+    display = [.5,.5,.5,.5]
+    world_map_1.add_axes(display)
+    
+    #customizing plot
+    #title
+    plt.title("Ora")
+    
+    #plots the data, color map set, and noise configuration... 'twilight' is a nice cmap
+    world_map_1 = plt.imshow(data, cmap = 'twilight', interpolation = 'nearest')
+    #the following line shows a list of all possible cmaps
+    ###print(plt.colormaps())
+    
+    #this line is unnecessary and simply adds a color bar
+    plt.colorbar(world_map_1)
+    
+    #display the plot
+    plt.show(world_map_1)
+
+make_map()
+
+
+
+
+#Green
+PC = [0, 204, 102]
+
+def make_map():
+    data = np.random.rand(10,10)
+    world_map_Ora = plt.figure()
+    display = [.5,.5,.5,.5]
+    world_map_Ora.add_axes(display)
+    plt.title("Ora Raw Map")
+    world_map_Ora = plt.imshow(data, cmap = 'Greys', interpolation = 'nearest')
+    Ora_array = world_map_Ora.get_array()
+    print(Ora_array)
+    plt.show(world_map_Ora)
+    for row in Ora_array:
+        for pixel_position in row:
+            if pixel_position < 0.5:
+                pixel_position = 0
+            else:
+                Ora_array[pixel_position] = 1
+    print(Ora_Array)
+    plt.show(Ora_array)
+make_map()
